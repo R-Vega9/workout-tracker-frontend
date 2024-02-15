@@ -40,7 +40,7 @@ useEffect(()=>{
           <Route path=":clientId/workout/new" element={<NewWorkout clients={clients} setClients={setClients}/>}/>
           <Route path=":clientId/workout/:workoutId" element={<Exercises clients={clients} setClients={setClients}/>}/>
           <Route path=":clientId/workout/:workoutId/edit" element={<EditWorkout clients={clients}/>}/>
-          <Route path=":clientId/workout/:workoutId/:exerciseId/edit" element={<EditExercise clients={clients} setClients={setClients}/>}/>
+          <Route path=":clientId/workout/:workoutId/exercise/:exerciseId/edit" element={<EditExercise clients={clients} setClients={setClients}/>}/>
         </Route>
         <Route path="*" element={<Missing />} />
       </Route>

@@ -25,7 +25,7 @@ const Exercises = ({clients, setClients}) => {
           <td>
             <button
               className='btn btn-warning'
-              onClick={() => navigate(`../${clientId}/workout/${workoutId}/${exercise.exerciseId}/edit`)}
+              onClick={() => navigate(`../${clientId}/workout/${workoutId}/exercise/${exercise.exerciseId}/edit`)}
             >
               Edit
             </button>

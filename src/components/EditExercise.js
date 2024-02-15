@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import api from '../api/clients';
+
 
 const EditExercise = ({clients, setClients}) => {
 
@@ -22,34 +24,42 @@ const EditExercise = ({clients, setClients}) => {
     const [exercisePerformance, setExercisePerformance] = useState(exercise.exercisePerformance || '');
     
 
-    const handleSubmit = (event)=>{
-        event.preventDefault()
-        const updatedClients = clients.map((client)=>{
-            if(client.clientId === parseInt(clientId)){
-                const updatedWorkouts = client.workouts.map((workout)=>{
-                    if(workout.workoutId === parseInt(workoutId)){
-                        const updatedExercises = workout.exercises.map((exercise)=>{
-                            if(exercise.exerciseId === parseInt(exerciseId)){
-                                return {
-                                    ...exercise,
-                                    exerciseName: exerciseName || exercise.exerciseName,
-                                    exerciseDetails: exerciseDetails || exercise.exerciseDetails,
-                                    exercisePerformance: exercisePerformance || exercise.exercisePerformance,
-                                  };
-                            }
-                            return exercise
-                        })
-                        return {...workout, exercises: updatedExercises}
-                    }
-                    return workout;
-                })
-                return {...client, workouts: updatedWorkouts}
-            }
-            return client
-        })
-        setClients(updatedClients)
-        navigate(`../${clientId}/workout/${workoutId}`);
-    }
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      try {
+          const response = await api.put(`/clients/${parseInt(clientId)}/workout/${parseInt(workoutId)}/exercise/${parseInt(exerciseId)}`, {
+              exerciseName,
+              exerciseDetails,
+              exercisePerformance
+          });
+          const updatedExercise = response.data;
+
+          console.log(updatedExercise)
+
+          const updatedClients = clients.map((client) => {
+              if (client.clientId === parseInt(clientId)) {
+                  const updatedWorkouts = client.workouts.map((w) => {
+                      if (w.workoutId === parseInt(workoutId)) {
+                          const updatedExercises = w.exercises.map((ex) => {
+                              if (ex.exerciseId === parseInt(exerciseId)) {
+                                  return updatedExercise;
+                              }
+                              return ex;
+                          });
+                          return { ...w, exercises: updatedExercises };
+                      }
+                      return w;
+                  });
+                  return { ...client, workouts: updatedWorkouts };
+              }
+              return client;
+          });
+          setClients(updatedClients);
+          navigate(`../${clientId}/workout/${workoutId}`);
+      } catch (error) {
+          console.error('Error updating exercise:', error);
+      }
+  };
 
     const handleChange = (e) => {
         const { id, value } = e.target;
