@@ -36,7 +36,7 @@ const Exercises = ({clients, setClients}) => {
 
 
   return (
-    <>
+    < div style = {{overflow: "scroll"}}>
       <h3 className='text-center'>{`${client.name}'s ${workout ? workout.workoutName : 'Workout'}`}</h3>
       <table className="table">
         <thead>
@@ -53,8 +53,8 @@ const Exercises = ({clients, setClients}) => {
       </table>
       <div><AddExercise client={client} workout={workout} clients={clients} setClients={setClients}/></div>
       <button onClick={()=>navigate(`../${clientId}/exercises/search`)} className='btn btn-dark w-100 mb-1'>Search Exercise History</button>
-      <button className='btn btn-primary mt-1' onClick={()=>navigate(`../${clientId}`)}>Go Back</button>
-    </>
+      <button className='btn btn-primary mt-1 w-100' onClick={()=>navigate(`../${clientId}`)}>Go Back</button>
+    </div>
   )
 }
 
