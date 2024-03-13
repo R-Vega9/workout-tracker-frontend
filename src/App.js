@@ -15,15 +15,20 @@ import api from './api/clients';
 function App() {
 
   const [clients, setClients]= useState([]);
+  const [loading, setLoading] = useState(false)
 
 
 useEffect(()=>{
   const fetchData = async()=>{
     try {
+      setLoading(true)
       const response = await api.get('/clients')
       setClients(response.data.clients)
     } catch (error) {
       console.log(error)
+    }
+    finally {
+      setLoading(false)
     }
   }
   fetchData()
@@ -32,7 +37,7 @@ useEffect(()=>{
   return (
     <Routes>
       <Route path="/" element={<Layout/>}>
-        <Route index element={<Home clients={clients}/>}/>
+        <Route index element={<Home clients={clients} loading={loading}/>}/>
         <Route path="clients">
           <Route path="new" element={<AddClient clients={clients} setClients={setClients}/>}/>
           <Route path=":clientId" element={<WorkoutsList clients={clients} setClients={setClients}/>}/>
