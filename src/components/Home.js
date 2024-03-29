@@ -5,7 +5,7 @@ const Home = ({clients, loading}) => {
 
   const displayClients = Array.isArray(clients) ? (
     clients.map((client) => (
-      <button type='button' className="list-group-item list-group-item-action" key={client.clientId}>
+      <button type='button' className="list-group-item list-group-item-action " key={client.clientId}>
         <Link to={`clients/${client.clientId}`}>{client.name}</Link>
       </button>
     ))
@@ -20,7 +20,7 @@ const Home = ({clients, loading}) => {
     <main>
     <h1 className='text-center mx-auto'>Clients</h1>
     <Link to={"/clients/new"}><h2 className='btn btn-success w-100 my-3' >Add Client +</h2></Link>
-    <div className='list-group d-flex justify-content-start flex-column gap-3'>
+    <div className='list-group d-flex justify-content-start flex-column gap-3 overflow-auto'>
       {loading ? pleaseWait : displayClients}
     </div>
     </main>
