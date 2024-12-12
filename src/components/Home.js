@@ -3,12 +3,20 @@ import { Link } from 'react-router-dom'
 
 const Home = ({clients, loading}) => {
 
+
   const displayClients = Array.isArray(clients) ? (
-    clients.map((client) => (
-      <button type='button' className="list-group-item list-group-item-action " key={client.clientId}>
-        <Link to={`clients/${client.clientId}`}>{client.name}</Link>
-      </button>
-    ))
+    clients
+      .filter(client => client.active)
+      .sort((a, b) => (a.name > b.name ? 1 : -1))
+      .map(client => (
+        <button
+          type='button'
+          className="list-group-item list-group-item-action"
+          key={client.clientId}
+        >
+          <Link to={`clients/${client.clientId}`}>{client.name}</Link>
+        </button>
+      ))
   ) : (
     <h1>Add Client</h1>
   );
